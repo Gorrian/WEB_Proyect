@@ -7,7 +7,8 @@
 
     if(isset($_POST['Login'])){
         $_POST=SQLProtection($_POST);
-        $Conexion=Con_Database("db_proyect");
+        MaintainConection();
+        $Conexion=$_SESSION['Conexion'];
         if($Conection->connect_errno){
             die("Error de Conexion (".$Conection->connect_errno.") ". $Conection->connect_error);
         }else{
@@ -15,7 +16,11 @@
             WHERE DNI='".$_POST['User']."' AND Password=PASSWORD('".$_POST['Password']."');";
             $Login=$Conexion->query($SQL);
             if($Login->num_rows==1){
-
+                if($Login->fetch_assoc()['Change_password']==1){
+                    $_SESSION['ChangeDNI']=$_POST['User'];
+                    $_SESSION['ChangePassword']=$_POST['Password'];
+                    header("Location: ChangePassword.php");
+                }
             }else{
 
             }
