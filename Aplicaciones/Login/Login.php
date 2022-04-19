@@ -29,8 +29,9 @@
                 print("<p>Login incorrecto</p>");
             }
         }
-    }elseif(isset($_POST['Cerrar session'])){
-        
+    }elseif(isset($_POST['Close'])){
+        unset($_SESSION['DNI']);
+        unset($_SESSION['Nombre_Usuario']);
     }
 
 
