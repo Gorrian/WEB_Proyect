@@ -7,30 +7,36 @@
 
     if(isset($_POST['Login'])){
         $_POST=SQLProtection($_POST);
-        MaintainConection();
-        $Conexion=$_SESSION['Conexion'];
-        if($Conection->connect_errno){
-            die("Error de Conexion (".$Conection->connect_errno.") ". $Conection->connect_error);
+        //$Conexion=$_SESSION['Conexion'];
+        $Conexion=Con_Database("db_proyecto");
+        if($Conexion->connect_errno){
+            die("Error de Conexion (".$Conexion->connect_errno.") ". $Conection->connect_error);
         }else{
-            $SQL="SELECT DNI, Password, Change_password, from trabajadores
-            WHERE DNI='".$_POST['User']."' AND Password=PASSWORD('".$_POST['Password']."');";
+            $SQL="SELECT DNI, Password, Change_password from trabajadores
+            WHERE DNI='".$_POST['User']."' AND `Password`=PASSWORD('".$_POST['Password']."');";
             $Login=$Conexion->query($SQL);
             if($Login->num_rows==1){
                 if($Login->fetch_assoc()['Change_password']==1){
                     $_SESSION['ChangeDNI']=$_POST['User'];
                     $_SESSION['ChangePassword']=$_POST['Password'];
                     header("Location: ChangePassword.php");
+                }else{
+                    $SQL="SELECT `Nombre completo` FROM TRABAJADORES WHERE DNI='".$_POST['User']."'";
+                    $_SESSION['Nombre_Usuario']=$Conexion->query($SQL)->fetch_row()[0];
+                    $_SESSION['DNI']=$_POST['User'];
                 }
             }else{
-
+                print("<p>Login incorrecto</p>");
             }
         }
+    }elseif(isset($_POST['Cerrar session'])){
+        
     }
 
 
 
-    print('<form>');
-    if(isset($_SESSION['ID_USUARIO'])){
+    print('<form action="'.$_SERVER['PHP_SELF'].'" method="post">');
+    if(isset($_SESSION['DNI'])){
         $NombreUsuario=$_SESSION['Nombre_Usuario'];
         print <<<HERE
         <label>$NombreUsuario</label><br/>
