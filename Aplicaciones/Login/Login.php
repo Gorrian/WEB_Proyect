@@ -13,7 +13,7 @@
             die("Error de Conexion (".$Conexion->connect_errno.") ". $Conection->connect_error);
         }else{
             $SQL="SELECT DNI, Password, Change_password from trabajadores
-            WHERE DNI='".$_POST['User']."' AND `Password`=PASSWORD('".$_POST['Password']."');";
+            WHERE DNI='".$_POST['User']."' AND `Password`=PASSWORD('".$_POST['Password']."') and Disabled!=1;";
             $Login=$Conexion->query($SQL);
             if($Login->num_rows==1){
                 if($Login->fetch_assoc()['Change_password']==1){
@@ -33,8 +33,6 @@
         unset($_SESSION['DNI']);
         unset($_SESSION['Nombre_Usuario']);
     }
-
-
 
     print('<form action="'.$_SERVER['PHP_SELF'].'" method="post">');
     if(isset($_SESSION['DNI'])){
