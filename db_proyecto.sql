@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 31-03-2022 a las 17:49:07
+-- Tiempo de generación: 20-04-2022 a las 14:52:58
 -- Versión del servidor: 5.7.31
 -- Versión de PHP: 7.4.9
 
@@ -100,7 +100,15 @@ CREATE TABLE IF NOT EXISTS `departamento` (
   `ID_departamento` int(11) NOT NULL AUTO_INCREMENT,
   `Nombre` varchar(45) COLLATE utf16_spanish_ci NOT NULL,
   PRIMARY KEY (`ID_departamento`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf16 COLLATE=utf16_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf16 COLLATE=utf16_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `departamento`
+--
+
+INSERT INTO `departamento` (`ID_departamento`, `Nombre`) VALUES
+(1, 'Direccion'),
+(2, 'Ciberseguridad');
 
 -- --------------------------------------------------------
 
@@ -205,9 +213,20 @@ CREATE TABLE IF NOT EXISTS `trabajadores` (
   `Telefono` varchar(13) COLLATE utf16_spanish_ci DEFAULT NULL,
   `C. electronico` varchar(45) COLLATE utf16_spanish_ci DEFAULT NULL,
   `Localidad` varchar(50) COLLATE utf16_spanish_ci DEFAULT NULL,
+  `Password` varchar(80) COLLATE utf16_spanish_ci NOT NULL,
+  `Change_password` tinyint(1) NOT NULL DEFAULT '1',
+  `Disabled` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`DNI`),
   KEY `ID departamento_idx` (`ID departamento`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16 COLLATE=utf16_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `trabajadores`
+--
+
+INSERT INTO `trabajadores` (`DNI`, `Nombre completo`, `ID departamento`, `Telefono`, `C. electronico`, `Localidad`, `Password`, `Change_password`, `Disabled`) VALUES
+('11111111A', 'Marcos Gorriaran', 1, '+34665123123', 'gorriansan@hotmail.com', 'Badalona', '*71F379143A5FA64F04D7022596DBB6B21CC4E6C5', 0, 0),
+('11111112A', 'Sergi Martinez', 1, '+34665123122', 'Sergi@petits.com', 'Badalona', '*A86D8C82A6DA1B254232E8524E7C0DFC7CEEAEA5', 0, 0);
 
 --
 -- Restricciones para tablas volcadas
