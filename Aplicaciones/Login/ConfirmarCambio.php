@@ -7,7 +7,7 @@ session_start();
 if(isset($_POST['Cambiar']) && $_POST['Password']==$_POST['Confirmar'] && $_SESSION['ChangePassword']!=$_POST['Password'] && !empty($_POST['Password'])){
     $Conexion=Con_Database('db_proyecto');
     if($Conexion->connect_errno){
-        die("Error de Conexion (".$Conection->connect_errno.") ". $Conection->connect_error);
+        die("Error de Conexion (".$Conexion->connect_errno.") ". $Conexion->connect_error);
     }else{
         $_POST=SQLProtection($_POST);
         $SQL="UPDATE TRABAJADORES SET Change_password=0,

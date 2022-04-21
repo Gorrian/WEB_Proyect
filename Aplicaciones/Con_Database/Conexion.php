@@ -26,4 +26,12 @@ function MaintainConection(){
         return;
     }
 }
+function GetScheme(String $File="Scheme.txt"){
+    if(!isset($_SESSION['SCHEME']) || empty($_SESSION['SCHEME'])){
+        $Content=fopen($File, "r");
+        feof($Content);
+        $_SESSION['SCHEME']=fgets($Content);
+    }
+    return $_SESSION['SCHEME'];
+}
 ?>

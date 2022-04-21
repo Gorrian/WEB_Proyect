@@ -3,14 +3,12 @@
     require("../Con_Database/SQL_Protection.php");
 
     session_start();
-
-
     if(isset($_POST['Login'])){
         $_POST=SQLProtection($_POST);
         //$Conexion=$_SESSION['Conexion'];
-        $Conexion=Con_Database("db_proyecto");
+        $Conexion=Con_Database(GetScheme("../Scheme.txt"));
         if($Conexion->connect_errno){
-            die("Error de Conexion (".$Conexion->connect_errno.") ". $Conection->connect_error);
+            die("Error de Conexion (".$Conexion->connect_errno.") ". $Conexion->connect_error);
         }else{
             $SQL="SELECT DNI, Password, Change_password from trabajadores
             WHERE DNI='".$_POST['User']."' AND `Password`=PASSWORD('".$_POST['Password']."') and Disabled!=1;";
