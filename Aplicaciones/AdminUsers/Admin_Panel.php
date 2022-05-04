@@ -29,15 +29,16 @@ use function PHPSTORM_META\sql_injection_subst;
             break;
             case "Departamento";
                 $Return="<select name='$Index"."[]'>";
-                $SQL="Select Nombre from departamento";
+                $SQL="Select Nombre, ID_departamento from departamento";
                 $Departamentos=$Conexion->query($SQL);
                 for($i=0;$i<$Departamentos->num_rows;$i++){
-                    $Nombre=$Departamentos->fetch_row()[0];
-                    $Return.="<option value='$Nombre'";
-                    if($Nombre==$Value){
+                    $Nombre=$Departamentos->fetch_row();
+                    
+                    $Return.="<option value='".$Nombre[1]."'";
+                    if($Nombre[0]==$Value){
                         $Return.=" selected";
                     }
-                    $Return.=">$Nombre</option>";
+                    $Return.=">".$Nombre[0]."</option>";
                 }
                 $Return.="</option>";
                 break;
@@ -61,7 +62,7 @@ use function PHPSTORM_META\sql_injection_subst;
             case "Change password";
             case "Disabled";
             case  "Admin";
-                $Return="<input type='checkbox' name='$Index"."[$counter]' ".IsChecked(intval($Value))." onclick='return false;'/>";
+                $Return="<input type='checkbox' name='$Index"."[$counter]' value='1' ".IsChecked(intval($Value))."/>";
             break;
             default:
                 $Return="Error";
@@ -70,41 +71,59 @@ use function PHPSTORM_META\sql_injection_subst;
     }
     function IndexConv($Index){
         switch($Index){
-            case "";
+            case "Departamento";
+                $Return="ID departamento";
+            break;
+            case "Nombre_completo";
+                $Return="Nombre completo";
+            break;
+            case "C__electronico";
+                $Return="C. electronico";
+            break;
+            default;
+                $Return=$Index;
         }
+        return $Return;
 
     }
 
 
     if(isset($_SESSION['DNI'])){
         $Conexion=Con_Database(GetScheme("../Scheme.txt"));
-        $SQL="SELECT Admin from Trabajadores WHERE DNI='".$_SESSION['DNI']."' AND Admin=1";
+        
         if($Conexion->connect_errno){
             die("Error de Conexion (".$Conexion->connect_errno.") ". $Conexion->connect_error);
-        }else{
+        }else{        
             
-            if(isset($_POST['submit'])){
-                print("<pre>");
-                print_r($_POST);
-                print("</pre>");
-
-                $_POST=SQLProtection($_POST);
-                $UpdateFormat="UPDATE FROM trabajadores";
-                foreach($_POST as $Index->Value){
-                    $UpdateComplete=$UpdateFormat;
-                    if($Index!='submit'){
-                        /*for($i=0;$i<max(array_keys($Value));$i++){
-                            while(!isset($Value[$i])){
-                                $i++;
-                            }
-
-                        }*/
+            $SQL="SELECT Admin from Trabajadores WHERE DNI='".$_SESSION['DNI']."' AND Admin=1";
+            if($Conexion->query($SQL)->num_rows==1){
+                if(isset($_POST['submit'])){
+                    $_POST=SQLProtection($_POST);
+                    foreach($_POST as $Index=>$Value){
+                        $Ahead[]=$Value;
                     }
+                    for($i=0;$i<count($_POST['DNI']);$i++){
+                        $UpdateFormat="UPDATE trabajadores SET";
+                        $i2=1;
+                       foreach($_POST as $Index=>$Value){
+                            if(isset($Value[$i]) && $Index!="submit"){
+                                $UpdateFormat.=" `".IndexConv($Index)."`= '".$Value[$i]."'";
+                            }
+                            if($Index=="submit"){
+                                $UpdateFormat.=" WHERE DNI='".$_POST['DNI'][$i]."'";
+                            }else if(is_array($Ahead[$i2]) && isset($Ahead[$i2][$i])){
+                                $UpdateFormat.=",";
+                            }
+                            $i2++;
+                       }
+                       $Conexion->query($UpdateFormat);
+                        
+                    }
+    
                 }
 
-            }
+                
 
-            if($Conexion->query($SQL)->num_rows==1){
                 $SQL="SELECT * FROM ADMIN_PANEL";
                 $Trabajadores=$Conexion->query($SQL);
                 $HEAD=true;
@@ -129,6 +148,20 @@ use function PHPSTORM_META\sql_injection_subst;
                 }
                 $HTML.='</table>';
                 $HTML.='<input type=submit name="submit" value="submit"/>';
+
+                $Filtro=("<form action='".$_SERVER['PHP_SELF']."'>");
+                    if(isset($_POST['TipoFiltro'])){
+                        $Select="selected";
+                    }else{
+                        $SelectFinal="";
+                    }
+                    $Filtro.="<select name='TipoFiltro'>";
+                    $SQL = "SELECT * FROM ADMIN_PANEL LIMIT=1";
+                    $Header=$Conexion->query($SQL)->fetch_assoc();
+
+                    
+                    $Filtro.="</select>";
+                $Filtro.=("</form>");
 
                 //Aqui se imprime el formulario
                 print("<form action='".$_SERVER['PHP_SELF']."' method='post'>");
