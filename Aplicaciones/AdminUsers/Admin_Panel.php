@@ -149,19 +149,23 @@ use function PHPSTORM_META\sql_injection_subst;
                 $HTML.='</table>';
                 $HTML.='<input type=submit name="submit" value="submit"/>';
 
-                $Filtro=("<form action='".$_SERVER['PHP_SELF']."'>");
-                    if(isset($_POST['TipoFiltro'])){
-                        $Select="selected";
-                    }else{
-                        $SelectFinal="";
-                    }
+                $Filtro=("<form action='".$_SERVER['PHP_SELF']."' method='get'>");
                     $Filtro.="<select name='TipoFiltro'>";
-                    $SQL = "SELECT * FROM ADMIN_PANEL LIMIT=1";
+                    $SQL = "SELECT * FROM ADMIN_PANEL LIMIT 1";
                     $Header=$Conexion->query($SQL)->fetch_assoc();
-
-                    
+                    foreach ($Header as $Head=>$Value){
+                        $Filtro.="<option value='$Head'";
+                        if(isset($_GET['TipoFiltro'])){
+                            if($Head==$_GET['TipoFiltro']){
+                                $Filtro.="selected";
+                            }
+                        }
+                        $Filtro.=">$Head</option>";
+                    }
                     $Filtro.="</select>";
+                    $Filtro.="<input type='text' placeholder='Filtro'/>";
                 $Filtro.=("</form>");
+                print($Filtro);
 
                 //Aqui se imprime el formulario
                 print("<form action='".$_SERVER['PHP_SELF']."' method='post'>");
