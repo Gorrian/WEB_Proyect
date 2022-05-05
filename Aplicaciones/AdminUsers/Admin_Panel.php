@@ -1,39 +1,7 @@
 <head>
     <meta charset="UTF-16"/>
-    <script>
-        function ischecked(ID){
-            var Input = document.getElementById(ID+'Return').getAttribute('Value');
-            var Image = document.getElementById(ID+'Image');
-            if(Input==0){
-                Image.setAttribute('hidden',null);
-            }else{
-                Image.removeAttribute('hidden');
-            }
-        }
-        function CheckInteract(ID){
-            var Input = document.getElementById(ID+'Return');
-            var Image = document.getElementById(ID+'Image');
-
-            if(Input.getAttribute("Value")==0){
-                Image.removeAttribute('hidden');
-                Input.setAttribute('Value',1)
-            }else{
-                Image.setAttribute('hidden',null);
-                Input.setAttribute('Value',0)
-            }
-        }
-    </script>
-    <style>
-        .Checkbox{
-            height: 15px;
-            width: 15px;
-            border-style: solid;
-        }
-        .CheckIMG{
-            height: 15px;
-            width: 15px;
-        }
-    </style>
+    <script src="../Javascript/CustomCheckbox.js"></script>
+    <link rel="stylesheet" href="../CSS/CSS.css"/>
 </head>
 
 <?php
@@ -220,7 +188,6 @@ use function PHPSTORM_META\sql_injection_subst;
                 print("<form action='".$_SERVER['PHP_SELF']."' method='post'>");
                 print($HTML);
                 print("</form>");
-
             }else{
                 header("Location: /Index.php");
             }
