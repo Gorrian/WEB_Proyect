@@ -1,5 +1,16 @@
 <head>
     <meta charset="UTF-16"/>
+    <script>
+        function ischecked(ID){
+            var Input = document.getElementById(ID+'Return').getAttribute('Value');
+            var Image = document.getElementById(ID+'Image');
+            if(Input==0){
+                Image.setAttribute('hidden',null);
+            }else{
+                Image.removeAttribute('hidden');
+            }
+        }
+    </script>
 </head>
 
 <?php
@@ -62,7 +73,11 @@ use function PHPSTORM_META\sql_injection_subst;
             case "Change password";
             case "Disabled";
             case  "Admin";
-                $Return="<input type='checkbox' name='$Index"."[$counter]' value='1' ".IsChecked(intval($Value))."/>";
+                $Return="<div id='Checkbox'>
+                <input type='hidden' id='".$counter.$Index."Return' value='$Value'/>
+                <img id='".$counter.$Index."Image' src='../Images/CheckedImage' onload='ischecked(\"".$counter.$Index."\")'/>
+                </div>";
+                //$Return="<input type='checkbox' name='$Index"."[$counter]' value='1' ".IsChecked(intval($Value))."/>";
             break;
             default:
                 $Return="Error";
@@ -94,7 +109,6 @@ use function PHPSTORM_META\sql_injection_subst;
         if($Conexion->connect_errno){
             die("Error de Conexion (".$Conexion->connect_errno.") ". $Conexion->connect_error);
         }else{        
-            
             $SQL="SELECT Admin from Trabajadores WHERE DNI='".$_SESSION['DNI']."' AND Admin=1";
             if($Conexion->query($SQL)->num_rows==1){
                 if(isset($_POST['submit'])){
@@ -121,10 +135,16 @@ use function PHPSTORM_META\sql_injection_subst;
                     }
     
                 }
-
+                if(isset($_GET['Filtrar'])){
+                    $_GET=SQLProtection($_GET);
+                    $WhereSQL="WHERE `".$_GET['TipoFiltro']."` LIKE '%".$_GET['Filtro']."%'";
+                    print($WhereSQL);
+                }else{
+                    $WhereSQL="";
+                }
                 
 
-                $SQL="SELECT * FROM ADMIN_PANEL";
+                $SQL="SELECT * FROM ADMIN_PANEL $WhereSQL";
                 $Trabajadores=$Conexion->query($SQL);
                 $HEAD=true;
                 $HTML='<table border="1">';
@@ -163,10 +183,16 @@ use function PHPSTORM_META\sql_injection_subst;
                         $Filtro.=">$Head</option>";
                     }
                     $Filtro.="</select>";
-                    $Filtro.="<input type='text' placeholder='Filtro'/>";
+                    $Filtro.="<input type='text' name='Filtro' placeholder='Filtro'";
+                    if(isset($_GET['Filtro'])){
+                        $Filtro.=" value='".$_GET['Filtro']."'";
+                    }
+                    $Filtro.="/>";
+                    $Filtro.="<input type='submit' name='Filtrar'/>";
                 $Filtro.=("</form>");
-                print($Filtro);
 
+                //Aqui el del filtro
+                print($Filtro);
                 //Aqui se imprime el formulario
                 print("<form action='".$_SERVER['PHP_SELF']."' method='post'>");
                 print($HTML);
