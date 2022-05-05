@@ -10,7 +10,30 @@
                 Image.removeAttribute('hidden');
             }
         }
+        function CheckInteract(ID){
+            var Input = document.getElementById(ID+'Return');
+            var Image = document.getElementById(ID+'Image');
+
+            if(Input.getAttribute("Value")==0){
+                Image.removeAttribute('hidden');
+                Input.setAttribute('Value',1)
+            }else{
+                Image.setAttribute('hidden',null);
+                Input.setAttribute('Value',0)
+            }
+        }
     </script>
+    <style>
+        .Checkbox{
+            height: 15px;
+            width: 15px;
+            border-style: solid;
+        }
+        .CheckIMG{
+            height: 15px;
+            width: 15px;
+        }
+    </style>
 </head>
 
 <?php
@@ -73,9 +96,9 @@ use function PHPSTORM_META\sql_injection_subst;
             case "Change password";
             case "Disabled";
             case  "Admin";
-                $Return="<div id='Checkbox'>
-                <input type='hidden' id='".$counter.$Index."Return' value='$Value'/>
-                <img id='".$counter.$Index."Image' src='../Images/CheckedImage' onload='ischecked(\"".$counter.$Index."\")'/>
+                $Return="<div class='Checkbox' onclick='CheckInteract(\"".$counter.$Index."\")'>
+                <input type='hidden' id='".$counter.$Index."Return' value='$Value'  name='$Index"."[$counter]'/>
+                <img id='".$counter.$Index."Image' class='CheckIMG' src='../Images/CheckedImage' onload='ischecked(\"".$counter.$Index."\")'/>
                 </div>";
                 //$Return="<input type='checkbox' name='$Index"."[$counter]' value='1' ".IsChecked(intval($Value))."/>";
             break;
