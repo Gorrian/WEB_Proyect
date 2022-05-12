@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 20-04-2022 a las 14:52:58
+-- Tiempo de generación: 12-05-2022 a las 13:47:32
 -- Versión del servidor: 5.7.31
 -- Versión de PHP: 7.4.9
 
@@ -20,6 +20,25 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `db_proyecto`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `admin_panel`
+-- (Véase abajo para la vista actual)
+--
+DROP VIEW IF EXISTS `admin_panel`;
+CREATE TABLE IF NOT EXISTS `admin_panel` (
+`DNI` varchar(9)
+,`Nombre completo` varchar(50)
+,`Departamento` varchar(45)
+,`Telefono` varchar(13)
+,`C. electronico` varchar(45)
+,`Localidad` varchar(50)
+,`Change password` tinyint(1)
+,`Disabled` tinyint(1)
+,`Admin` tinyint(1)
+);
 
 -- --------------------------------------------------------
 
@@ -100,7 +119,7 @@ CREATE TABLE IF NOT EXISTS `departamento` (
   `ID_departamento` int(11) NOT NULL AUTO_INCREMENT,
   `Nombre` varchar(45) COLLATE utf16_spanish_ci NOT NULL,
   PRIMARY KEY (`ID_departamento`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf16 COLLATE=utf16_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf16 COLLATE=utf16_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `departamento`
@@ -108,7 +127,8 @@ CREATE TABLE IF NOT EXISTS `departamento` (
 
 INSERT INTO `departamento` (`ID_departamento`, `Nombre`) VALUES
 (1, 'Direccion'),
-(2, 'Ciberseguridad');
+(2, 'Ciberseguridad'),
+(3, 'RRHH');
 
 -- --------------------------------------------------------
 
@@ -140,6 +160,78 @@ CREATE TABLE IF NOT EXISTS `provedor` (
   `Correo electronico` varchar(45) COLLATE utf16_spanish_ci DEFAULT NULL,
   PRIMARY KEY (`ID provedor/NIF`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16 COLLATE=utf16_spanish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `provincias`
+--
+
+DROP TABLE IF EXISTS `provincias`;
+CREATE TABLE IF NOT EXISTS `provincias` (
+  `id_provincia` smallint(6) NOT NULL AUTO_INCREMENT,
+  `provincia` varchar(30) COLLATE utf16_spanish_ci DEFAULT NULL,
+  PRIMARY KEY (`id_provincia`)
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf16 COLLATE=utf16_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `provincias`
+--
+
+INSERT INTO `provincias` (`id_provincia`, `provincia`) VALUES
+(1, 'Albacete'),
+(2, 'Alicante/Alacant'),
+(3, 'Almería'),
+(4, 'Araba/Álava'),
+(5, 'Asturias'),
+(6, 'Ávila'),
+(7, 'Badajoz'),
+(8, 'Balears, Illes'),
+(9, 'Barcelona'),
+(10, 'Bizkaia'),
+(11, 'Burgos'),
+(12, 'Cáceres'),
+(13, 'Cádiz'),
+(14, 'Cantabria'),
+(15, 'Castellón/Castelló'),
+(16, 'Ceuta'),
+(17, 'Ciudad Real'),
+(18, 'Córdoba'),
+(19, 'Coruña, A'),
+(20, 'Cuenca'),
+(21, 'Gipuzkoa'),
+(22, 'Girona'),
+(23, 'Granada'),
+(24, 'Guadalajara'),
+(25, 'Huelva'),
+(26, 'Huesca'),
+(27, 'Jaén'),
+(28, 'León'),
+(29, 'Lugo'),
+(30, 'Lleida'),
+(31, 'Madrid'),
+(32, 'Málaga'),
+(33, 'Melilla'),
+(34, 'Murcia'),
+(35, 'Navarra'),
+(36, 'Ourense'),
+(37, 'Palencia'),
+(38, 'Palmas, Las'),
+(39, 'Pontevedra'),
+(40, 'Rioja, La'),
+(41, 'Salamanca'),
+(42, 'Santa Cruz de Tenerife'),
+(43, 'Segovia'),
+(44, 'Sevilla'),
+(45, 'Soria'),
+(46, 'Tarragona'),
+(47, 'Teruel'),
+(48, 'Toledo'),
+(49, 'Valencia/València'),
+(50, 'Valladolid'),
+(51, 'Zamora'),
+(52, 'Zaragoza'),
+(53, 'Badalona');
 
 -- --------------------------------------------------------
 
@@ -216,6 +308,7 @@ CREATE TABLE IF NOT EXISTS `trabajadores` (
   `Password` varchar(80) COLLATE utf16_spanish_ci NOT NULL,
   `Change_password` tinyint(1) NOT NULL DEFAULT '1',
   `Disabled` tinyint(1) NOT NULL DEFAULT '1',
+  `Admin` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`DNI`),
   KEY `ID departamento_idx` (`ID departamento`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16 COLLATE=utf16_spanish_ci;
@@ -224,9 +317,19 @@ CREATE TABLE IF NOT EXISTS `trabajadores` (
 -- Volcado de datos para la tabla `trabajadores`
 --
 
-INSERT INTO `trabajadores` (`DNI`, `Nombre completo`, `ID departamento`, `Telefono`, `C. electronico`, `Localidad`, `Password`, `Change_password`, `Disabled`) VALUES
-('11111111A', 'Marcos Gorriaran', 1, '+34665123123', 'gorriansan@hotmail.com', 'Badalona', '*71F379143A5FA64F04D7022596DBB6B21CC4E6C5', 0, 0),
-('11111112A', 'Sergi Martinez', 1, '+34665123122', 'Sergi@petits.com', 'Badalona', '*A86D8C82A6DA1B254232E8524E7C0DFC7CEEAEA5', 0, 0);
+INSERT INTO `trabajadores` (`DNI`, `Nombre completo`, `ID departamento`, `Telefono`, `C. electronico`, `Localidad`, `Password`, `Change_password`, `Disabled`, `Admin`) VALUES
+('11111111A', 'Marcos Gorriaran', 1, '+34665123123', 'gorriansan@hotmail.com', 'Badalona', '*4E169FE095B7E4A7A4EB05AAE294B5A17EB8FBF0', 0, 0, 1),
+('11111112A', 'Sergi Martinez', 1, '+34665123122', 'Sergi@petits.com', 'Huelva', '*4E169FE095B7E4A7A4EB05AAE294B5A17EB8FBF0', 0, 0, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `admin_panel`
+--
+DROP TABLE IF EXISTS `admin_panel`;
+
+DROP VIEW IF EXISTS `admin_panel`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `admin_panel`  AS  select `t`.`DNI` AS `DNI`,`t`.`Nombre completo` AS `Nombre completo`,`d`.`Nombre` AS `Departamento`,`t`.`Telefono` AS `Telefono`,`t`.`C. electronico` AS `C. electronico`,`t`.`Localidad` AS `Localidad`,`t`.`Change_password` AS `Change password`,`t`.`Disabled` AS `Disabled`,`t`.`Admin` AS `Admin` from (`trabajadores` `t` join `departamento` `d` on((`t`.`ID departamento` = `d`.`ID_departamento`))) ;
 
 --
 -- Restricciones para tablas volcadas

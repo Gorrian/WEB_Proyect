@@ -1,15 +1,14 @@
 <head>
     <meta charset="UTF-16"/>
-    <script src="../Javascript/CustomCheckbox.js"></script>
-    <link rel="stylesheet" href="../CSS/CSS.css"/>
+    <script src="../../Javascript/CustomCheckbox.js"></script>
+    <link rel="stylesheet" href="../../../CSS/CSS.css"/>
 </head>
 
 <?php
 
-use function PHPSTORM_META\sql_injection_subst;
 
-    require "../Con_Database/Conexion.php";
-    require "../Con_Database/SQL_Protection.php";
+    require "../../Con_Database/Conexion.php";
+    require "../../Con_Database/SQL_Protection.php";
     session_start();
     
     function IsChecked (int $Value){
@@ -66,7 +65,7 @@ use function PHPSTORM_META\sql_injection_subst;
             case  "Admin";
                 $Return="<div class='Checkbox' onclick='CheckInteract(\"".$counter.$Index."\")'>
                 <input type='hidden' id='".$counter.$Index."Return' value='$Value'  name='$Index"."[$counter]'/>
-                <img id='".$counter.$Index."Image' class='CheckIMG' src='../Images/CheckedImage' onload='ischecked(\"".$counter.$Index."\")'/>
+                <img id='".$counter.$Index."Image' class='CheckIMG' src='../../Images/CheckedImage' onload='ischecked(\"".$counter.$Index."\")'/>
                 </div>";
                 //$Return="<input type='checkbox' name='$Index"."[$counter]' value='1' ".IsChecked(intval($Value))."/>";
             break;
@@ -95,7 +94,7 @@ use function PHPSTORM_META\sql_injection_subst;
 
 
     if(isset($_SESSION['DNI'])){
-        $Conexion=Con_Database(GetScheme("../Scheme.txt"));
+        $Conexion=Con_Database(GetScheme("../../Scheme.txt"));
         
         if($Conexion->connect_errno){
             die("Error de Conexion (".$Conexion->connect_errno.") ". $Conexion->connect_error);
