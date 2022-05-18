@@ -1,6 +1,6 @@
 <?php
-require("../Con_Database/Conexion.php");
-require("../Con_Database/SQL_Protection.php");
+require("../..Con_Database/Conexion.php");
+require("../..Con_Database/SQL_Protection.php");
 
 session_start();
 
