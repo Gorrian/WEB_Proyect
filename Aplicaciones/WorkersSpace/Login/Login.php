@@ -1,12 +1,12 @@
 <?php
-    require("../Con_Database/Conexion.php");
-    require("../Con_Database/SQL_Protection.php");
+    require("../..Con_Database/Conexion.php");
+    require("../..Con_Database/SQL_Protection.php");
 
     session_start();
     if(isset($_POST['Login'])){
         $_POST=SQLProtection($_POST);
         //$Conexion=$_SESSION['Conexion'];
-        $Conexion=Con_Database(GetScheme("../Scheme.txt"));
+        $Conexion=Con_Database(GetScheme("../..Scheme.txt"));
         if($Conexion->connect_errno){
             die("Error de Conexion (".$Conexion->connect_errno.") ". $Conexion->connect_error);
         }else{
