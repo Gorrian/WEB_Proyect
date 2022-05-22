@@ -65,7 +65,7 @@
             case  "Admin";
                 $Return="<div class='Checkbox' onclick='CheckInteract(\"".$counter.$Index."\")'>
                 <input type='hidden' id='".$counter.$Index."Return' value='$Value'  name='$Index"."[$counter]'/>
-                <img id='".$counter.$Index."Image' class='CheckIMG' src='../../Images/CheckedImage' onload='ischecked(\"".$counter.$Index."\")'/>
+                <img id='".$counter.$Index."Image' class='CheckIMG' src='../../../Images/CheckedImage' onload='ischecked(\"".$counter.$Index."\")'/>
                 </div>";
                 //$Return="<input type='checkbox' name='$Index"."[$counter]' value='1' ".IsChecked(intval($Value))."/>";
             break;

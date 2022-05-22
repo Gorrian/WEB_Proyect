@@ -65,6 +65,7 @@
                 print("<p></p>");
                 if($Conexion->query($SQL)->num_rows==1){
                     $_SESSION['Client']=$_POST['ID'];
+                    $_SESSION['ClientName']=$_POST['Nombre'];
                 }
                 
             }
@@ -74,37 +75,37 @@
         header("Location: /Index.php");
     }
     print("<form action='".$_SERVER['PHP_SELF']."' method='post'>");
-    print("<label>NIF/CIF</label><br/>");
+    print("<label>NIF/CIF*</label><br/>");
+    print("<input type='text' name='ID' size='9'/><br/>");
     if(isset($Code)){
         if(($Code>=0 || $Code<=3) && is_int($Code)){
             print("<p class='Error'>".$ERROR[$Code]."</p>");
         }
 
     }
-    print("<input type='text' name='ID' size='9'/><br/>");
-    print("<label>Nombre</label><br/>");
+    print("<label>Nombre*</label><br/>");
     print("<input type='text' name='Nombre'/><br/>");
-    print("<label>Contraseña</label><br/>");
-    if(isset($Code)){
-        if($Code==4 && is_int($Code)){
-            print("<p class='Error'>".$ERROR[$Code]."</p>");
-        }
-    }
+    print("<label>Contraseña*</label><br/>");
     print("<input type='password' name='password'/><br/>");
-    print("<label>Repetir contraseña</label><br/>");
     if(isset($Code)){
         if($Code==4 && is_int($Code)){
             print("<p class='Error'>".$ERROR[$Code]."</p>");
         }
     }
+    print("<label>Repetir contraseña*</label><br/>");
     print("<input type='password' name='REPPassword'/><br/>");
     if(isset($Code)){
-        if($Code==5 && is_int($Code)){
+        if($Code==4 && is_int($Code)){
             print("<p class='Error'>".$ERROR[$Code]."</p>");
         }
     }
     print("<input type='checkbox' name='Law'/>");
     print("<label>Aceptas las condiciones de uso de esta pagina</label><br/>");
+    if(isset($Code)){
+        if($Code==5 && is_int($Code)){
+            print("<p class='Error'>".$ERROR[$Code]."</p>");
+        }
+    }
     print("<input type='submit' name='submit'/>");
     print("</form>");
 ?>
