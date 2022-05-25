@@ -1,18 +1,25 @@
-<header>
+<?php 
+include "head.php";
+?>
+<body>
+ <header>
+ <img src="\Images\WebIcon.ico" width="60" height="50">
     <nav>
-        <ul>
+        <ul id="menu">
             <li>
-                Inicio
+              <a href="">Inicio</a>
             </li>
             <li>
-                Hacer una peticion
+              <a href="">Hacer una petición</a>
             </li>
             <li>
-                Espacio de trabajadores
+              <a href="">Espacio de trabajadores</a>
             </li>
         </ul>
     </nav>
-    <div>
-        <iframe src="/Aplicaciones/ClientApps/Login.php"></iframe>
+    <div id="lorgin">
+        <iframe src="\Aplicaciones\ClientsApps\Login.php" scrolling="no" ></iframe>
     </div>
-</header>
+ </header>
+ 
+</body>

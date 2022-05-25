@@ -7,6 +7,53 @@
     height: 15px;
     width: 15px;
 }
-body{
-    background-color: rebeccapurple;
+
+header{
+    background-color: steelblue;
+    width: 100%;
+    top: 0;
+    left: 0;
+    position: fixed;
+    padding: 5px;
+    overflow: hidden;
+}
+#lorgin > iframe{
+    float: right;
+    border: none;
+}
+
+img{
+    float: left;
+    padding-left: 6px;
+    padding-top: 6px;
+}
+
+  nav{
+      float: left;
+      padding-top: 6px;  
+  }
+  ul{
+      list-style: none;
+  }
+#menu li > a{
+	color: midnightblue;
+  	text-decoration: none;
+  	padding: 10px;
+  	display: block;
+  	min-width: 150px; 
+}
+
+#menu li > a:hover{
+    color: midnightblue;
+    background-color: mediumturquoise;
+}
+#menu > li{
+  float: left;
+  text-align:center;
+}
+#menu > li > ul{
+  display: none;
+}
+#menu > li:hover > ul{
+  display:block;
 }
