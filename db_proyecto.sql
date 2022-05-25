@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 12-05-2022 a las 13:47:32
+-- Tiempo de generación: 25-05-2022 a las 15:55:25
 -- Versión del servidor: 5.7.31
 -- Versión de PHP: 7.4.9
 
@@ -71,9 +71,19 @@ CREATE TABLE IF NOT EXISTS `clientes` (
   `Nombre` varchar(45) COLLATE utf16_spanish_ci NOT NULL,
   `C.electronico` varchar(45) COLLATE utf16_spanish_ci DEFAULT NULL,
   `Telefono` varchar(13) COLLATE utf16_spanish_ci DEFAULT NULL,
-  `Localidad` varchar(75) COLLATE utf16_spanish_ci NOT NULL,
+  `Localidad` varchar(75) COLLATE utf16_spanish_ci DEFAULT NULL,
+  `Password` varchar(80) COLLATE utf16_spanish_ci NOT NULL,
   PRIMARY KEY (`NIF/CIF`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16 COLLATE=utf16_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `clientes`
+--
+
+INSERT INTO `clientes` (`NIF/CIF`, `Nombre`, `C.electronico`, `Telefono`, `Localidad`, `Password`) VALUES
+('11111111A', 's', NULL, NULL, NULL, '*FCA02337EEB51C3EE398B473FD9A9AFD093F9E64'),
+('A11111111', 'Someone', NULL, NULL, NULL, '*BF0F994755B3F6D7D87DD27775B94B0BFCE6F48F'),
+('A11111112', 'Someone', NULL, NULL, NULL, '*BF0F994755B3F6D7D87DD27775B94B0BFCE6F48F');
 
 -- --------------------------------------------------------
 
@@ -141,9 +151,20 @@ CREATE TABLE IF NOT EXISTS `pedidos` (
   `ID.pedido` int(11) NOT NULL AUTO_INCREMENT,
   `ID.cliente` varchar(9) COLLATE utf16_spanish_ci NOT NULL,
   `Fecha de peticion` datetime NOT NULL,
+  `Localizacion` varchar(75) COLLATE utf16_spanish_ci NOT NULL,
+  `C.electronico` varchar(45) COLLATE utf16_spanish_ci DEFAULT NULL,
+  `Telefono` varchar(13) COLLATE utf16_spanish_ci DEFAULT NULL,
   PRIMARY KEY (`ID.pedido`),
   KEY `NIF/CIF_idx` (`ID.cliente`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf16 COLLATE=utf16_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf16 COLLATE=utf16_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `pedidos`
+--
+
+INSERT INTO `pedidos` (`ID.pedido`, `ID.cliente`, `Fecha de peticion`, `Localizacion`, `C.electronico`, `Telefono`) VALUES
+(3, '11111111A', '2022-05-25 10:42:37', 'dfsf', 'sdffdsf', 'dfsfdsf'),
+(4, '11111111A', '2022-05-25 11:12:24', 'Somewhere', 'Somewhere@somewhere.com', '665111222');
 
 -- --------------------------------------------------------
 
@@ -257,13 +278,25 @@ CREATE TABLE IF NOT EXISTS `responsables` (
 
 DROP TABLE IF EXISTS `servicios-asignados`;
 CREATE TABLE IF NOT EXISTS `servicios-asignados` (
-  `ID` int(11) NOT NULL,
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
   `ID.Servicio` int(11) NOT NULL,
   `ID.Pedido` int(11) NOT NULL,
   PRIMARY KEY (`ID`),
   KEY `ID.pedido_idx` (`ID.Pedido`),
   KEY `ID_idx` (`ID.Servicio`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf16 COLLATE=utf16_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf16 COLLATE=utf16_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `servicios-asignados`
+--
+
+INSERT INTO `servicios-asignados` (`ID`, `ID.Servicio`, `ID.Pedido`) VALUES
+(1, 1, 3),
+(2, 2, 3),
+(3, 3, 3),
+(4, 1, 4),
+(5, 2, 4),
+(6, 3, 4);
 
 -- --------------------------------------------------------
 
@@ -276,7 +309,16 @@ CREATE TABLE IF NOT EXISTS `t.servicio` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Nom.servicio` varchar(45) COLLATE utf16_spanish_ci NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf16 COLLATE=utf16_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf16 COLLATE=utf16_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `t.servicio`
+--
+
+INSERT INTO `t.servicio` (`ID`, `Nom.servicio`) VALUES
+(1, 'Ciberseguridad'),
+(2, 'Implementacion web'),
+(3, 'Mantenimiento de equipos');
 
 -- --------------------------------------------------------
 
@@ -319,7 +361,9 @@ CREATE TABLE IF NOT EXISTS `trabajadores` (
 
 INSERT INTO `trabajadores` (`DNI`, `Nombre completo`, `ID departamento`, `Telefono`, `C. electronico`, `Localidad`, `Password`, `Change_password`, `Disabled`, `Admin`) VALUES
 ('11111111A', 'Marcos Gorriaran', 1, '+34665123123', 'gorriansan@hotmail.com', 'Badalona', '*4E169FE095B7E4A7A4EB05AAE294B5A17EB8FBF0', 0, 0, 1),
-('11111112A', 'Sergi Martinez', 1, '+34665123122', 'Sergi@petits.com', 'Huelva', '*4E169FE095B7E4A7A4EB05AAE294B5A17EB8FBF0', 0, 0, 1);
+('11111112A', 'Sergi Martinez', 1, '+34665123122', 'Sergi@petits.com', 'Huelva', '*4E169FE095B7E4A7A4EB05AAE294B5A17EB8FBF0', 0, 0, 1),
+('11111112G', 'AnotherWorker', 3, '+34665123123', 'Someone@hotmail.com', 'Barcelona', '*FCA02337EEB51C3EE398B473FD9A9AFD093F9E64', 1, 1, 0),
+('12345678G', 'Worker the Worker', 2, '+34665123123', 'Worker@hotmail.com', 'Alicante/Alacant', '*4E169FE095B7E4A7A4EB05AAE294B5A17EB8FBF0', 1, 1, 0);
 
 -- --------------------------------------------------------
 
