@@ -34,4 +34,4 @@ function GetFileName(string $FileLocation){
     <title><?php print(GetFileName($_SERVER['PHP_SELF']))?></title>
     <link rel="stylesheet" href="/CSS/CSS.css"/>
     <meta name="description" content="Bienvenidos a pequeños informaticos donde os podemos proporcionar auditorias, montaros vuestro sitio web o tareas de instalacion informatica"/>
-    <link rel="icon" type="image/x-icon" href="/Images/Logo_proyect.ico">
+    <link rel="icon" type="image/x-icon" href="\Images\WebIcon.ico">

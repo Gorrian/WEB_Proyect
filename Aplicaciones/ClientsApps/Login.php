@@ -1,6 +1,7 @@
 <?php
 include "../Con_Database/Conexion.php";
 include "../Con_Database/SQL_Protection.php";
+include "../head.php";
 session_start();
 $Conexion=Con_Database(GetScheme("../Scheme.txt"));
 
