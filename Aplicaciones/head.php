@@ -35,4 +35,3 @@ function GetFileName(string $FileLocation){
     <link rel="stylesheet" href="/CSS/CSS.css"/>
     <meta name="description" content="Bienvenidos a pequeños informaticos donde os podemos proporcionar auditorias, montaros vuestro sitio web o tareas de instalacion informatica"/>
     <link rel="icon" type="image/x-icon" href="\Images\WebIcon.ico">
-</head>

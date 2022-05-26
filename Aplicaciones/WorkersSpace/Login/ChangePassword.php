@@ -17,7 +17,7 @@ if(isset($_SESSION['ChangePassword'])){
         3=>"No ha introducido una contraseña"
     ];
     if(isset($_GET['ERROR'])){
-        print("<h4 class=ERROR>".$ERROR[$_GET['ERROR']]."</h4>");
+        print("<h4 class=Error>".$ERROR[$_GET['ERROR']]."</h4>");
     }
     $ID_Trabajador=$_SESSION['ChangeDNI'];
     print <<<HERE
