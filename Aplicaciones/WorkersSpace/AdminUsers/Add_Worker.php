@@ -1,13 +1,14 @@
 <head>
-    <script>
-     
-    </script>
-</head>
+
 
 <?php
-require "../../Con_Database/Conexion.php";
-require "../../Con_Database/SQL_Protection.php";
-session_start();
+include_once "../../WorkerHeader.php";
+print<<<HERE
+</head>
+HERE;
+require_once "../../Con_Database/Conexion.php";
+require_once "../../Con_Database/SQL_Protection.php";
+@session_start();
 
 $Pattern=False;
 $The3Booleans=array("Change_password","Disabled","Admin");

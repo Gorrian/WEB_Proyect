@@ -1,4 +1,5 @@
 <?php
+    include_once "/Aplicaciones/ClientHeader.php";
     include "../Con_Database/Conexion.php";
     include "../Con_Database/SQL_Protection.php";
     session_start();

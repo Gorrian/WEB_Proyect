@@ -1,6 +1,8 @@
 <?php
-require("../..Con_Database/Conexion.php");
-require("../..Con_Database/SQL_Protection.php");
+include_once "../../head.php";
+print("</head>");
+require("../../Con_Database/Conexion.php");
+require("../../Con_Database/SQL_Protection.php");
 
 session_start();
 

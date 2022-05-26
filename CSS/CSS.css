@@ -7,22 +7,31 @@
     height: 15px;
     width: 15px;
 }
-
+.Error{
+  color:crimson;
+}
 header{
     background-color: steelblue;
-    width: 100%;
+    width: 105%;
     top: 0;
     left: 0;
-    position: fixed;
-    padding: 5px;
+    position: static;
+    padding: 0;
+    margin-left: -0.6em;
+    margin-top: -0.6em;
     overflow: hidden;
 }
 #lorgin > iframe{
     float: right;
     border: none;
+    height: 180px;
+}
+.RegisterButton{
+  float: right;
+  float: inline-end;
 }
 
-img{
+#PageIcon{
     float: left;
     padding-left: 6px;
     padding-top: 6px;

@@ -1,15 +1,15 @@
-<head>
-    <meta charset="UTF-16"/>
-    <script src="../../Javascript/CustomCheckbox.js"></script>
-    <link rel="stylesheet" href="../../../CSS/CSS.css"/>
-</head>
+
 
 <?php
 
-
+    require_once "../../head.php";
+    print ' 
+    <script src="../../Javascript/CustomCheckbox.js"></script>
+    </head>';
     require "../../Con_Database/Conexion.php";
     require "../../Con_Database/SQL_Protection.php";
-    session_start();
+    include_once "../../WorkerHeader.php";
+    @session_start();
     
     function IsChecked (int $Value){
         if($Value==1){

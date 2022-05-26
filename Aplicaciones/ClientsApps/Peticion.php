@@ -1,4 +1,5 @@
 <?php
+include_once "../ClientHeader.php";
 include "../Con_Database/Conexion.php";
 include "../Con_Database/SQL_Protection.php";
 session_start();
@@ -12,7 +13,7 @@ function PrintError(int $Code, array $ErrorCodes){
 
 $ERROR=array();
 if(!isset($_SESSION['Client'])){
-    header("Location: Login.php");
+    header("Location: /index.php");
 }
 if(isset($_POST['submit'])){
     $_POST=SQLProtection($_POST);
