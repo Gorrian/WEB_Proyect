@@ -2,12 +2,7 @@
 
 
 <?php
-include_once "../../WorkerHeader.php";
-print<<<HERE
-</head>
-HERE;
-require_once "../../Con_Database/Conexion.php";
-require_once "../../Con_Database/SQL_Protection.php";
+
 @session_start();
 
 $Pattern=False;
@@ -15,6 +10,11 @@ $The3Booleans=array("Change_password","Disabled","Admin");
 $The3Labels=array("Cambiar contraseña tras primer inicio de sesion en la web", "La cuenta estara desactivada del sitio web", "El usuario sera administrador");
 
 if(isset($_SESSION['DNI'])){
+
+    
+    require_once "../../Con_Database/Conexion.php";
+    require_once "../../Con_Database/SQL_Protection.php";
+
     $Conexion=Con_Database(GetScheme("../../Scheme.txt"));
     if($Conexion->connect_errno){
         die("Error de Conexion (".$Conexion->connect_errno.") ". $Conexion->connect_error);
@@ -22,20 +22,27 @@ if(isset($_SESSION['DNI'])){
         if(isset($_POST['submit'])){
             $_POST=SQLProtection($_POST);
             if($_POST['FirstPassword']==$_POST['ConfirmPassword']){
-                $SQL="INSERT INTO TRABAJADORES (DNI, `Nombre completo`, `ID departamento`, `Telefono`, `C. electronico`, Localidad, `Password`)
-                 VALUES ('".$_POST['DNI']."','".$_POST['NombreCompleto']."', '".$_POST['Departamento']."','".$_POST['Telefono']."','".$_POST['CorreoElectronico']."', '".$_POST['Localidad']."', PASSWORD('".$_POST['FirstPassword']."'))";
-                 $Ejecutado=$Conexion->query($SQL);
-                 if($Ejecutado){
-                     print("<p class='Confirmacion'><b>Se ha guardado el trabajador en la base de datos</b></p>");
-                 }
-                 
+                $SQL="INSERT INTO trabajadores (DNI, `Nombre completo`, `ID departamento`, `Telefono`, `C. electronico`, Localidad, `Password`)
+                VALUES ('".$_POST['DNI']."','".$_POST['NombreCompleto']."', '".$_POST['Departamento']."','".$_POST['Telefono']."','".$_POST['CorreoElectronico']."', '".$_POST['Localidad']."', PASSWORD('".$_POST['FirstPassword']."'))";
+                $Ejecutado=$Conexion->query($SQL);
+                $SQL="SELECT * FROM `trabajadores` WHERE DNI='".$_SESSION['DNI']."' AND Admin=1";
+                if($Conexion->query($SQL)->num_rows==1){
+                    foreach($The3Booleans as $Value){
+                        if(isset($_POST[$Value])){
+                            $SQL="UPDATE trabajadores set $Value=".$_POST[$Value]." WHERE DNI='".$_POST['DNI']."'";
+                        }else{
+                            $SQL="UPDATE trabajadores set $Value=0 WHERE DNI='".$_POST['DNI']."'";
+                        }
+                    }
+                }
+                
             }else{
                 $Pattern=TRUE;
             }
         }
         $SQL="SELECT * FROM `trabajadores` WHERE DNI='".$_SESSION['DNI']."' AND (`ID departamento`=1 or `ID departamento`=3 or Admin=1)";
         if($Conexion->query($SQL)->num_rows==1){
-            print_r("");
+            include_once "../../WorkerHeader.php";
             print("<form method='post' action='".$_SERVER['PHP_SELF']."'>");
             print<<<HERE
                 <label>DNI Trabajador</label><br/>
@@ -115,6 +122,9 @@ if(isset($_SESSION['DNI'])){
                 <input type="reset"/>
             HERE;
             print("</form>");
+            if(isset($Ejecutado)){
+                 print("<p class='Confirmacion'><b>Se ha guardado el trabajador en la base de datos</b></p>");
+             }
         }else{
             header("Location: /Index.php");
         }

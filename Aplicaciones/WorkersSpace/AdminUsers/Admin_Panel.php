@@ -2,13 +2,7 @@
 
 <?php
 
-    require_once "../../head.php";
-    print ' 
-    <script src="../../Javascript/CustomCheckbox.js"></script>
-    </head>';
-    require "../../Con_Database/Conexion.php";
-    require "../../Con_Database/SQL_Protection.php";
-    include_once "../../WorkerHeader.php";
+
     @session_start();
     
     function IsChecked (int $Value){
@@ -94,12 +88,20 @@
 
 
     if(isset($_SESSION['DNI'])){
+        require_once "../../head.php";
+        print ' 
+        <script src="../../Javascript/CustomCheckbox.js"></script>
+        </head>';
+        require "../../Con_Database/Conexion.php";
+        require "../../Con_Database/SQL_Protection.php";
+        include_once "../../WorkerHeader.php";
+
         $Conexion=Con_Database(GetScheme("../../Scheme.txt"));
         
         if($Conexion->connect_errno){
             die("Error de Conexion (".$Conexion->connect_errno.") ". $Conexion->connect_error);
         }else{        
-            $SQL="SELECT Admin from Trabajadores WHERE DNI='".$_SESSION['DNI']."' AND Admin=1";
+            $SQL="SELECT Admin from trabajadores WHERE DNI='".$_SESSION['DNI']."' AND Admin=1";
             if($Conexion->query($SQL)->num_rows==1){
                 if(isset($_POST['submit'])){
                     $_POST=SQLProtection($_POST);

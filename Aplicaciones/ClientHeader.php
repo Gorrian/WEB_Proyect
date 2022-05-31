@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html>
 <?php 
 include_once "head.php";
 print("</head>");
@@ -19,10 +21,8 @@ print("</head>");
         </ul>
     </nav>
     <div id="lorgin">
-        <iframe src="\Aplicaciones\ClientsApps\Login.php" scrolling="no" ></iframe>
+        <iframe src="\Aplicaciones\ClientsApps\Login.php" scrolling="no"></iframe>
         
     </div>
-    <p><a href='/Aplicaciones/ClientsApps/Registrarse.php' class="RegisterButton">Registrarse</a></p>
  </header>
  
-</body>

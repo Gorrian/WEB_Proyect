@@ -1,14 +1,17 @@
 <?php
-    include_once "../../head.php";
-    print("</head>");
+    session_start();
+     
+    if(isset($_POST['Login']) && isset($_SESSION['DNI'])){
+        header("Location:../AdminUsers/Add_Worker.php");
+    }
+    include_once("../../ClientHeader.php");
     require("../../Con_Database/Conexion.php");
     require("../../Con_Database/SQL_Protection.php");
 
-    session_start();
-    print("<p><a href='/index.php'>Volver al index</a></p>");
     if(isset($_SESSION['DNI']) && !isset($_POST['Close'])){
-        print("<p><a href='../AdminUsers/Add_Worker.php'>Ir al espacio de trabajadores</a></p>");
+        print("<p><a href='../AdminUsers/Add_Worker.php' class='SpaceBetween'>Ir al espacio de trabajadores</a></p>");
     }
+   
    
     if(isset($_POST['Login'])){
         $_POST=SQLProtection($_POST);
@@ -26,7 +29,7 @@
                     $_SESSION['ChangePassword']=$_POST['Password'];
                     header("Location: ChangePassword.php");
                 }else{
-                    $SQL="SELECT `Nombre completo` FROM TRABAJADORES WHERE DNI='".$_POST['User']."'";
+                    $SQL="SELECT `Nombre completo` FROM trabajadores WHERE DNI='".$_POST['User']."'";
                     $_SESSION['Nombre_Usuario']=$Conexion->query($SQL)->fetch_row()[0];
                     $_SESSION['DNI']=$_POST['User'];
                 }
@@ -43,12 +46,10 @@
     if(isset($_SESSION['DNI'])){
         $NombreUsuario=$_SESSION['Nombre_Usuario'];
         print <<<HERE
-        <label>$NombreUsuario</label><br/>
+        <br/><label>$NombreUsuario</label><br/>
         <input type="submit" name="Close" value="Cerrar session"/>
         HERE;
-        if(isset($_POST['Login'])){
-            header("Location:../AdminUsers/Add_Worker.php");
-        }
+        
     }else{
         print <<<HERE
             <label>*DNI Trabajador:</label><br/>
@@ -60,4 +61,7 @@
         HERE;
     }
     print('</form>');
+?>
+<?php
+include_once "../../Footer.php";
 ?>

@@ -1,14 +1,14 @@
 <?php
-include_once "../../head.php";
-print("</head>");
-require("../../Con_Database/Conexion.php");
-require("../../Con_Database/SQL_Protection.php");
+
 
 session_start();
 
 
 
 if(isset($_SESSION['ChangePassword'])){
+    include_once("../../ClientHeader.php");
+    require("../../Con_Database/Conexion.php");
+    require("../../Con_Database/SQL_Protection.php");
     $ERROR=[
         1=>"La nueva contraseña no puede ser similar a la vieja",
         2=>"Tiene que volver a poner su nueva contraseña exactamente igual
@@ -36,4 +36,7 @@ if(isset($_SESSION['ChangePassword'])){
 }else{
     header("Location: Login.php");
 }
+?>
+<?php
+include_once "../../Footer.php";
 ?>

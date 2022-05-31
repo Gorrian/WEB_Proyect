@@ -1,9 +1,10 @@
 <?php
+session_start();
 include "../Con_Database/Conexion.php";
 include "../Con_Database/SQL_Protection.php";
 include "../head.php";
 print("</head>");
-session_start();
+
 $Conexion=Con_Database(GetScheme("../Scheme.txt"));
 
 if(isset($_POST['CerrarSession'])){
@@ -37,5 +38,10 @@ if(isset($_SESSION['Client'])){
     print("<input type='password' name='password'/><br/>");
     print("<input type='submit' name='IniciarSession' value='Iniciar session'/>");
 }
+if(!isset($_SESSION['Client'])){
+    print("<label><a id='BotonRegistro' onclick='window.top.location.href=\"/Aplicaciones/ClientsApps/Registrarse.php\";'>Registrarse</a></label>");
+}
 print("</form>");
+
+
 ?>

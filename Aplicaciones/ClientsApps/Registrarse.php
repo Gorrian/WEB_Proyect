@@ -1,8 +1,7 @@
 <?php
-    include_once "/Aplicaciones/ClientHeader.php";
     include "../Con_Database/Conexion.php";
     include "../Con_Database/SQL_Protection.php";
-    session_start();
+    @session_start();
     $Conexion=Con_Database(GetScheme("../Scheme.txt"));
 
     //Code of errors depending if the user answered wrong on something.
@@ -60,10 +59,9 @@
             VALUES ('".$_POST['ID']."', '".$_POST['Nombre']."',PASSWORD('".$_POST['password']."'))";
             $Conexion->query($SQL);
             if($Conexion->errno==1062){
-                print("<p class='Error'>Usuario con NIF/CIF ".$_POST['ID']." ya existe</p>");
+                $ErrorNIF="<p class='Error'>Usuario con NIF/CIF ".$_POST['ID']." ya existe</p>";
             }else{
                 $SQL="SELECT * FROM clientes WHERE `NIF/CIF`='".$_POST['ID']."'";
-                print("<p></p>");
                 if($Conexion->query($SQL)->num_rows==1){
                     $_SESSION['Client']=$_POST['ID'];
                     $_SESSION['ClientName']=$_POST['Nombre'];
@@ -71,15 +69,19 @@
                 
             }
         }
+        if(isset($_SESSION['Client'])){
+            header("Location: /index.php");
+        }
     }
-    if(isset($_SESSION['Client'])){
-        header("Location: /Index.php");
+    include_once "../ClientHeader.php";
+    if(isset($ErrorNIF)){
+        print($ErrorNIF);
     }
     print("<form action='".$_SERVER['PHP_SELF']."' method='post'>");
     print("<label>NIF/CIF*</label><br/>");
     print("<input type='text' name='ID' size='9'/><br/>");
     if(isset($Code)){
-        if(($Code>=0 || $Code<=3) && is_int($Code)){
+        if(($Code>=0 && $Code<=3) && is_int($Code)){
             print("<p class='Error'>".$ERROR[$Code]."</p>");
         }
 

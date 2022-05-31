@@ -1,8 +1,13 @@
 <?php
+session_start();
+if(!isset($_SESSION['Client'])){
+    header("Location: /index.php",true, 303);
+}
+
 include_once "../ClientHeader.php";
 include "../Con_Database/Conexion.php";
 include "../Con_Database/SQL_Protection.php";
-session_start();
+
 $Conexion=Con_Database(GetScheme("../Scheme.txt"));
 
 function PrintError(int $Code, array $ErrorCodes){
@@ -12,9 +17,7 @@ function PrintError(int $Code, array $ErrorCodes){
 }
 
 $ERROR=array();
-if(!isset($_SESSION['Client'])){
-    header("Location: /index.php");
-}
+
 if(isset($_POST['submit'])){
     $_POST=SQLProtection($_POST);
     if(!empty($_POST['Location']) && isset($_POST['TipoServicio']) && (!empty($_POST['Email']) || !empty($_POST['Phone']))){
@@ -43,8 +46,11 @@ if(isset($_POST['submit'])){
         if(!empty($_POST['Phone'])){
             $SQL="UPDATE pedidos SET `Telefono`='".$_POST['Phone']."' WHERE `ID.pedido`=".$IDPedido;
             $Conexion->query($SQL) or print("<p class='Error'>Error en la insercion de datos</p>");
-            $SQL="UPDATE `clientes` SET `Telefono`='".$_POST['Phone']."' WHERE `NIF/CIF`='".$_SESSION['Client']."'";
+            if(isset($_POST['KeepPhone'])){
+                $SQL="UPDATE `clientes` SET `Telefono`='".$_POST['Phone']."' WHERE `NIF/CIF`='".$_SESSION['Client']."'";
                 $Conexion->query($SQL);
+            }
+            
         }
     }else{
         if(empty($_POST['Location'])){
@@ -95,7 +101,7 @@ print("<p>Debe rellenar uno de los dos campos</p>");
 PrintError(2,$ERROR);
 
 print("<label>Correo electronico</label><br/>");
-print("<input type='text' name='Email'");
+print("<input type='text' name='Email' pattern='[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'");
 if(!is_null($ClientInfo['C.electronico'])){
     print(" value='".$ClientInfo['C.electronico']."'");
 }
@@ -117,4 +123,7 @@ print("/><label>Desea guardar esta informacion para posteriores peticiones</labe
 print("<input type='submit' name='submit'/>");
 
 print("</form>");
+if(empty($ERROR)){
+    print("<p class='Confirmacion'><b>Se ha guardado vuestra peticion, nos pondremo en contacto con la informacion proporcionada.</b></p>");
+}
 ?>

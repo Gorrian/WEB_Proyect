@@ -38,5 +38,3 @@ if($Conexion->connect_errno){
             </ul>
         </nav>
         </header>
-    </body>
-</html>
