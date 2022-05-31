@@ -54,6 +54,9 @@ input[type="checkbox"]{
   height: 1.2em;
   width: 1.2em;
 }
+.Peligro[type="submit"]{
+  background-color: RED;
+}
 select[multiple] > option:hover{
   border-style:inset;
 }
