@@ -19,17 +19,45 @@ if(isset($_POST['submit'])){
                 $Status=$Conexion->query($SQL);
                 if(!$Status){
                     $Error[$Index]="Error en la insercion de este elemento";
+                }else if($Index=="Nombre"){
+                    $_SESSION['ClientName']=$Value;
                 }
+
             }
         }
     }else if($_POST['submit']=="Cambiar Contraseña"){
         $_SESSION['ChangeClient']=$_SESSION['Client'];
         header("Location: CambiarContraseña.php");
+    }else if($_POST['submit']=="Eliminar cuenta"){
+        $SQL="SELECT `ID.pedido` FROM pedidos WHERE `ID.cliente`='".$_SESSION['Cliente']."'";
+        $ResultPedidos=$Conexion->query($SQL);
+        for($i=0;$i<$ResultPedidos->num_rows;$i++){
+            $IDPedidos[]=$ResultPedidos->fetch_row()[0];
+        }
+        if(isset($IDPedidos)){
+            foreach($IDPedidos as $Value){
+                $SQL= "DELETE FROM `responsables` WHERE `ID encargo`='$Value'";
+                $Conexion->query($SQL);
+                $SQL= "DELETE FROM `servicios-asignados` WHERE `ID.Pedido`='$Value'";
+                $Conexion->query($SQL);
+                $SQL = "DELETE FROM `comp.enviados` WHERE `ID_pedido`='$Value'";
+                $Conexion->query($SQL);
+                $SQL = "DELETE FROM `pedidos` WHERE `ID.pedido`='$Value'";
+                $Conexion->query($SQL);
+            }
+        }
+        $SQL="DELETE FROM `clientes` WHERE `NIF/CIF`='".$_SESSION['Client']."'";
+        $Conexion->query($SQL);
+        unset($_SESSION['Client']);
+        unset($_SESSION['ClientName']);
+        
     }
 }
 
-if(!isset($_SESSION['Client'])){
+if(!isset($_SESSION['Client']) && !isset($_POST['submit'])){
     header("Location: /index.php?ERROR=1");
+}else if(isset($_POST['submit']) && !isset($_SESSION['Client'])){
+    header("Location: /index.php");
 }
 
 
